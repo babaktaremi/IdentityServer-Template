@@ -20,15 +20,27 @@ namespace IdentityService
         {
             new ApiResource("MicroService","Api Access")
             {
-                Scopes = {"fullaccess"} ,
+                Scopes = {"fullaccess","Read"} ,
                 Name = "MicroService"
+            },
+            new ApiResource("ReadWrite","Api Access")
+            {
+                Scopes = {"Read","Write"} ,
+            },
+            new ApiResource("Gateway")
+            {
+                Scopes = { "Gateway.fullaccess" }
             }
+
         };
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                new ApiScope("fullaccess"), 
+                new ApiScope("fullaccess"),
+                new ApiScope("Read"),
+                new ApiScope("Write"),
+                new ApiScope("Gateway.fullaccess"),
             };
 
         public static IEnumerable<Client> Clients =>
@@ -45,13 +57,23 @@ namespace IdentityService
                 new Client
                 {
                     AllowedGrantTypes = GrantTypes.Code,
-                    AllowedScopes = {"openid","profile","fullaccess"},
+                    AllowedScopes = {"openid","profile","Read",},
                     ClientSecrets = {new Secret("bb4cfb89-de96-4980-80e7-dbdbbe9d7a9f".Sha256()) },
                     ClientName = "Api Client Name",
                     RedirectUris = { "https://localhost:5101/signin-oidc" },
                     PostLogoutRedirectUris = { "https://localhost:5101/signout-callback-oidc" },
                     ClientId = "APICLIENT"
-                }, 
+                },
+                new Client
+                {
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
+                    AllowedScopes = {"openid","profile","Gateway.FullAccess",},
+                    ClientSecrets = {new Secret("bb4cfb89-de96-4980-80e7-dbdbbe9d7a9d".Sha256()) },
+                    ClientName = "Api Gateway Name",
+                    RedirectUris = { "https://localhost:5101/signin-oidc" },
+                    PostLogoutRedirectUris = { "https://localhost:5101/signout-callback-oidc" },
+                    ClientId = "Gateway"
+                },
             };
     }
 }

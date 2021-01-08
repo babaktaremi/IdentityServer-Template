@@ -34,7 +34,7 @@ namespace SecondMicroService
                 .AddJwtBearer(options =>
                 {
                     options.Authority = "https://localhost:5012";
-                    options.Audience = "MicroService";
+                    options.Audience = "Gateway";
                 });
 
             #endregion

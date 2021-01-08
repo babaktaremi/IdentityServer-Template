@@ -51,7 +51,8 @@ namespace FirstMicroService
                     options.SaveTokens = true;
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.ResponseType = OidcConstants.ResponseTypes.Code;
-                    options.Scope.Add("fullaccess");
+                    //options.Scope.Add("Read");
+                    options.Scope.Add("Gateway.FullAccess");
                 });
         }
 
